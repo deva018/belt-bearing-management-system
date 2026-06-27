@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RD Bearing Mill & Store Management System</title>
+  <!-- Google Fonts: Outfit (modern, geometric) and Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons (fallback fallback with modern SVG custom inline definitions/FontAwesome fallback) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- ================= AUTH CONTAINER (LOGIN COVER) ================= -->
+  <div id="login-overlay" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <i class="fa-solid fa-gears rotate-logo"></i>
+        </div>
+        <h1>RD Bearing Mill & Store</h1>
+        <p>Belt & Bearing Trading Solutions</p>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-solid fa-user"></i>
+            <input type="text" id="login-username" placeholder="Enter username" required autocomplete="username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+          </div>
+        </div>
+        <div class="login-alert error" id="login-error" style="display: none;">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Invalid username or password.</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+          <span>Sign In</span>
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+      </form>
+      <div class="login-footer">
+        <p><a href="#" id="forgot-password-link">Forgot password? Contact Admin</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= APP WRAPPER ================= -->
+  <div id="app-wrapper" class="app-layout" style="display: none;">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-box">
+          <div class="sidebar-logo-img">RD</div>
+          <span>RD Bearing Mill & Store</span>
+        </div>
+        <button id="toggle-sidebar-btn" class="sidebar-collapse-btn">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="nav-item active" data-hash="dashboard">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#products" class="nav-item" data-hash="products">
+          <i class="fa-solid fa-cubes"></i>
+          <span>Products</span>
+        </a>
+        <a href="#companies" class="nav-item" data-hash="companies">
+          <i class="fa-solid fa-building"></i>
+          <span>Companies</span>
+        </a>
+        <a href="#sizes" class="nav-item" data-hash="sizes">
+          <i class="fa-solid fa-maximize"></i>
+          <span>Sizes</span>
+        </a>
+        <a href="#stock" class="nav-item" data-hash="stock">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span>Stock Ledger</span>
+        </a>
+        <a href="#customers" class="nav-item" data-hash="customers">
+          <i class="fa-solid fa-users"></i>
+          <span>Customers</span>
+        </a>
+        <a href="#quotations" class="nav-item" data-hash="quotations">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <span>Quotations</span>
+        </a>
+        <a href="#rates" class="nav-item admin-only" data-hash="rates">
+          <i class="fa-solid fa-tags"></i>
+          <span>Rate Updates</span>
+        </a>
+        <a href="#reports" class="nav-item admin-only" data-hash="reports">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Reports Portal</span>
+        </a>
+        <a href="#audit" class="nav-item admin-only" data-hash="audit">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Audit Logs</span>
+        </a>
+        <a href="#users" class="nav-item admin-only" data-hash="users">
+          <i class="fa-solid fa-user-gear"></i>
+          <span>User Setup</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar" id="user-avatar-char">A</div>
+          <div class="user-details">
+            <span class="user-name" id="profile-username">Admin</span>
+            <span class="user-role" id="profile-role">Administrator</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="logout-action-btn" title="Sign Out">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN BODY -->
+    <main class="main-content">
+      <!-- HEADER -->
+      <header class="top-bar">
+        <div class="page-title-section">
+          <h1 id="page-title">Dashboard</h1>
+          <p id="page-subtitle">Welcome to your trading command center.</p>
+        </div>
+
+        <div class="top-bar-actions">
+          <!-- Dark/Light Theme Switch -->
+          <button id="theme-switch" class="btn-icon" title="Toggle Theme">
+            <i class="fa-solid fa-sun"></i>
+          </button>
+          <!-- Calculator Toggle -->
+          <button id="calculator-toggle" class="btn-icon" title="Open Built-in Calculator">
+            <i class="fa-solid fa-calculator"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- DYNAMIC SCREEN TARGET -->
+      <section class="page-container" id="app-content">
+        <!-- Rendered view goes here -->
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Assembling system layout...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= FLOATING GST/DISCOUNT CALCULATOR ================= -->
+  <div id="calculator-widget" class="calculator-popup">
+    <div class="calc-header">
+      <span><i class="fa-solid fa-calculator"></i> Trade Calculator</span>
+      <button class="calc-close" id="calc-close-btn">&times;</button>
+    </div>
+    <div class="calc-body">
+      <div class="form-group row">
+        <div class="col">
+          <label>Purchase / Base Rate (Rs.)</label>
+          <input type="number" id="calc-base" value="100" min="0" step="any">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <label>Margin (%)</label>
+          <input type="number" id="calc-margin" value="20" min="0" step="any">
+        </div>
+        <div class="col">
+          <label>Discount (%)</label>
+          <input type="number" id="calc-discount" value="5" min="0" step="any">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col">
+          <label>GST Tax (%)</label>
+          <select id="calc-gst">
+            <option value="0">0%</option>
+            <option value="5">5%</option>
+            <option value="12">12%</option>
+            <option value="18" selected>18%</option>
+            <option value="28">28%</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="calc-divider"></div>
+      
+      <div class="calc-row">
+        <span>Selling Rate (Before Tax):</span>
+        <strong id="res-selling-pre">Rs. 120.00</strong>
+      </div>
+      <div class="calc-row">
+        <span>Discount Value:</span>
+        <strong id="res-disc-val" class="text-error">- Rs. 6.00</strong>
+      </div>
+      <div class="calc-row">
+        <span>Taxable Amount:</span>
+        <strong id="res-taxable">Rs. 114.00</strong>
+      </div>
+      <div class="calc-row">
+        <span>GST Tax Value:</span>
+        <strong id="res-gst-val" class="text-success">Rs. 20.52</strong>
+      </div>
+      <div class="calc-result-box">
+        <span>Final Price (Incl. GST)</span>
+        <h2 id="res-final-amount">Rs. 134.52</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GLOBAL MODAL CONTAINER ================= -->
+  <div id="modal-container" class="modal-overlay" style="display: none;">
+    <div class="modal-card" id="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal Title</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Forms dynamically injected -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= NOTIFICATION BANNER ================= -->
+  <div id="toast-container" class="toast-wrapper"></div>
+
+  <!-- Core JavaScript -->
+  <script src="app.js" type="module"></script>
+</body>
+</html>
